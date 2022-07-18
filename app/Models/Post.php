@@ -35,7 +35,18 @@ class Post extends Model
         return $this->belongsToMany(Tag::class);
     }
 
-    public function images(){
+    public function images()
+    {
         return $this->morphMany(Image::class, 'imageable');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
     }
 }

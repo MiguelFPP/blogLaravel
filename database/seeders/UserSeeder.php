@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'name'=>'Miguel F',
             'surname'=>'Perdomo P',
             'email'=>'miguel@gmail.com',
-            'password'=>'12345678',
+            'password'=> bcrypt('12345678'),
             'email_verified_at'=>now(),
         ]);
 
