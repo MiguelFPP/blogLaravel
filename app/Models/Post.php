@@ -26,6 +26,11 @@ class Post extends Model
         return 'slug';
     }
 
+    public function checkLike(User $user)
+    {
+        return $this->likes->contains('user_id', $user->id);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
