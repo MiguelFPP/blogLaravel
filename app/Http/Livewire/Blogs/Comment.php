@@ -21,14 +21,25 @@ class Comment extends Component
     public function comment()
     {
         $data = $this->validate();
+        if (auth()->check()) {
+            ModelsComment::create([
+                'post_id' => $this->post->id,
+                'content' => $data['content'],
+                'user_id' => auth()->user()->id,
+            ]);
 
-        ModelsComment::create([
-            'post_id' => $this->post->id,
-            'content' => $data['content'],
-            'user_id' => auth()->user()->id,
-        ]);
+            $this->content = '';
 
-        $this->content = '';
+            $this->emit('render');
+        } else {
+            session()->flash('error', 'Debes iniciar sesión para poder comentar');
+        }
+    }
+
+    public function deleteComment($id)
+    {
+        $comment = ModelsComment::find($id);
+        $comment->delete();
 
         $this->emit('render');
     }

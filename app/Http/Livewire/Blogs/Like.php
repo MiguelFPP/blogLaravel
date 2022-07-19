@@ -13,22 +13,33 @@ class Like extends Component
 
     public function mount(Post $post)
     {
-        $this->isLiked = $post->checkLike(auth()->user());
+        if (auth()->check()) {
+            $this->isLiked = $post->checkLike(auth()->user());
+        } else {
+            $this->isLiked = false;
+        }
         $this->likesCount = $post->likes->count();
     }
 
     public function like()
     {
-        if ($this->post->checkLike(auth()->user())) {
-            $this->post->likes()->where('post_id', $this->post->id)->delete();
-            $this->isLiked = false;
-            $this->likesCount--;
+        if (auth()->check()) {
+            if ($this->post->checkLike(auth()->user())) {
+                $this->post->likes()->where('post_id', $this->post->id)
+                    ->where('user_id', auth()->user()->id)
+                    ->delete();
+                $this->isLiked = false;
+                $this->likesCount--;
+            } else {
+                $this->post->likes()->create([
+                    'user_id' => auth()->user()->id
+                ]);
+                $this->isLiked = true;
+                $this->likesCount++;
+            }
         } else {
-            $this->post->likes()->create([
-                'user_id' => auth()->user()->id
-            ]);
-            $this->isLiked = true;
-            $this->likesCount++;
+            session()->flash('error', 'Debes iniciar sesión para poder darle me gusta a un post');
+            return redirect()->route('login');
         }
     }
 
