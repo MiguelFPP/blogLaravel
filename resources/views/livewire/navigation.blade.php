@@ -1,7 +1,8 @@
 <div>
-    @if (route('blog.index') === url()->current())
-        <x-navigation-home :categories="$categories"></x-navigation-home>
-    @else
+
+    @if (route('dashboard') === url()->current())
         @include('layouts.navigation-panel')
+    @else
+        <x-navigation-home :categories="$categories"></x-navigation-home>
     @endif
 </div>

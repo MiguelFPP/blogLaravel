@@ -34,7 +34,7 @@
                             class="text-white px-3 py-2 rounded-md text-sm font-medium @if (route('blog.index') === url()->current()) bg-gray-900 @endif"
                             aria-current="page">Inicio</a>
                         @foreach ($categories as $category)
-                            <a href="#" class="text-white px-3 py-2 rounded-md text-sm font-medium"
+                            <a href="{{route('blog.category', $category)}}" class="text-white px-3 py-2 rounded-md text-sm font-medium"
                                 aria-current="page">{{ $category->name }}</a>
                         @endforeach
                     </div>
@@ -104,7 +104,7 @@
                 class="text-white block px-3 py-2 rounded-md text-base font-medium @if (route('blog.index') === url()->current()) bg-gray-900 @endif"
                 aria-current="page">Dashboard</a>
             @foreach ($categories as $category)
-                <a href="#" class="text-white block px-3 py-2 rounded-md text-base font-medium"
+                <a href="{{route('blog.category', $category)}}" class="text-white block px-3 py-2 rounded-md text-base font-medium"
                     aria-current="page">{{ $category->name }}</a>
             @endforeach
         </div>

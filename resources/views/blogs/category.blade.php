@@ -1,8 +1,13 @@
 <x-app-layout>
+    <div class="container mx-auto mt-4">
+        <div class="w-full h-40 bg-[#E8AA42] rounded-lg shadow-lg mb-4">
+            <div class="w-full h-full px-8 flex flex-col justify-center items-center">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl text-gray-800 leading-8 font-bold">
+                    {{ $category->name }}
+                </h1>
+            </div>
+        </div>
 
-    <x-carousel :posts_likes="$posts_likes"></x-carousel>
-
-    <div class="container mx-auto py-4">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             @foreach ($posts as $post)
                 <article
@@ -20,7 +25,7 @@
                             @endforeach
                         </div>
                         <h1 class="text-4xl text-black leading-8 font-bold mt-2">
-                            <a href="{{ route('blog.show', $post) }}">
+                            <a href="">
                                 {{ $post->title }}
                             </a>
                         </h1>

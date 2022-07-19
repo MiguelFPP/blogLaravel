@@ -26,3 +26,6 @@ require __DIR__ . '/auth.php';
 
 /* pagina principal */
 Route::get('/', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/category/{category}', [BlogController::class, 'category'])->name('blog.category');
+Route::get('/tag/{tag}', [BlogController::class, 'tag'])->name('blog.tag');
+Route::get('/post/{post}', [BlogController::class, 'show'])->name('blog.show');
