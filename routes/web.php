@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\BlogController;
-use App\Http\Controllers\Panel\CategoryController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\Panel\Tag\TagController;
+use App\Http\Controllers\Panel\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,3 +36,8 @@ Route::get('/post/{post}', [BlogController::class, 'show'])->name('blog.show');
 Route::get('/categories', [CategoryController::class, 'index'])->name('panel.category.index');
 Route::get('/categories/create', [CategoryController::class, 'create'])->name('panel.category.create');
 Route::get('/categories/{category}', [CategoryController::class, 'edit'])->name('panel.category.edit');
+
+/* tags */
+Route::get('/tags', [TagController::class, 'index'])->name('panel.tag.index');
+Route::get('/tags/create', [TagController::class, 'create'])->name('panel.tag.create');
+Route::get('/tags/{tag}', [TagController::class, 'edit'])->name('panel.tag.edit');

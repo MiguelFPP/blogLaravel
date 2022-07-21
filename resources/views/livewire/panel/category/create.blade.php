@@ -4,7 +4,7 @@
             <div class="mb-6">
                 <x-label for="name" class="mb-1 text-base">Nombre</x-label>
                 <x-input type="text" class="w-full bg-gray-50" name="name" id="name"
-                    placeholder="Nombre categoria" wire:model="name" wire:keydown="makeSlug()">
+                    placeholder="Nombre categoria" wire:model.lazy="name" wire:change="makeSlug()">
                 </x-input>
                 @error('name')
                     <div class="text-red-500 text-sm">
@@ -15,7 +15,7 @@
             <div class="mb-6">
                 <x-label for="slug" class="mb-1 text-base">Slug</x-label>
                 <x-input type="text" class="w-full bg-gray-50" name="slug" id="slug"
-                    placeholder="Slug de la categoria" wire:model="slug" />
+                    placeholder="Slug de la categoria" wire:model.lazy="slug" />
                 @error('slug')
                     <div class="text-red-500 text-sm">
                         {{ $message }}
