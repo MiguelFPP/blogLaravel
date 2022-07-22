@@ -19,11 +19,11 @@ return new class extends Migration
             $table->text('body')->nullable();
             $table->text('content')->nullable();
             $table->string('image')->nullable();
-            $table->string('slug')->unique();
+            $table->string('slug')->unique()->nullable();
             $table->boolean('status')->default(0);
 
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('category_id')->constrained();
+            $table->foreignId('category_id')->nullable()->constrained();
 
             $table->timestamps();
         });
