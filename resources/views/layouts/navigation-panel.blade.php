@@ -21,6 +21,9 @@
                     <x-nav-link :href="route('panel.tag.index')" :active="request()->routeIs('panel.tag.*')">
                         {{ __('Etiquetas') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('panel.post.index')" :active="request()->routeIs('panel.post.*')">
+                        {{ __('Posts') }}
+                    </x-nav-link>
                 </div>
             </div>
 

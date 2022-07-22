@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Panel\Tag\TagController;
 use App\Http\Controllers\Panel\CategoryController;
+use App\Http\Controllers\Panel\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,11 +34,16 @@ Route::get('/tag/{tag}', [BlogController::class, 'tag'])->name('blog.tag');
 Route::get('/post/{post}', [BlogController::class, 'show'])->name('blog.show');
 
 /* categories */
-Route::get('/categories', [CategoryController::class, 'index'])->name('panel.category.index');
-Route::get('/categories/create', [CategoryController::class, 'create'])->name('panel.category.create');
-Route::get('/categories/{category}', [CategoryController::class, 'edit'])->name('panel.category.edit');
+Route::get('/categories', [CategoryController::class, 'index'])->middleware(['auth'])->name('panel.category.index');
+Route::get('/categories/create', [CategoryController::class, 'create'])->middleware(['auth'])->name('panel.category.create');
+Route::get('/categories/{category}', [CategoryController::class, 'edit'])->middleware(['auth'])->name('panel.category.edit');
 
 /* tags */
-Route::get('/tags', [TagController::class, 'index'])->name('panel.tag.index');
-Route::get('/tags/create', [TagController::class, 'create'])->name('panel.tag.create');
-Route::get('/tags/{tag}', [TagController::class, 'edit'])->name('panel.tag.edit');
+Route::get('/tags', [TagController::class, 'index'])->middleware(['auth'])->name('panel.tag.index');
+Route::get('/tags/create', [TagController::class, 'create'])->middleware(['auth'])->name('panel.tag.create');
+Route::get('/tags/{tag}', [TagController::class, 'edit'])->middleware(['auth'])->name('panel.tag.edit');
+
+/* posts */
+Route::get('/posts', [PostController::class, 'index'])->middleware(['auth'])->name('panel.post.index');
+Route::get('/posts/create', [PostController::class, 'create'])->middleware(['auth'])->name('panel.post.create');
+Route::get('/posts/{post}', [PostController::class, 'edit'])->middleware(['auth'])->name('panel.post.edit');

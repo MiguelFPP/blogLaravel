@@ -8,34 +8,50 @@
     <table class="w-full text-sm text-left text-gray-900">
         <thead class="text-xs text-gray-700 uppercase bg-gray-100">
             <tr>
-                <th scope="col" class="py-3 px-6">ID</th>
-                <th scope="col" class="py-3 px-6">Nombre</th>
-                <th scope="col" class="py-3 px-6">Slug</th>
+                <th scope="col" class="py-3 px-4">ID</th>
+                <th scope="col" class="py-3 px-8">Titulo</th>
+                <th scope="col" class="py-3 px-6">Categoria</th>
+                <th scope="col" class="py-3 px-6">Comentarios</th>
+                <th scope="col" class="py-3 px-6">Likes</th>
+                <th scope="col" class="py-3 px-6">Estado</th>
                 <th scope="col" class="py-3 px-6 text-center">Accion</th>
             </tr>
         </thead>
         <tbody>
-            @forelse ($tags as $tag)
+            @forelse ($posts as $post)
                 <tr class="bg-white border-b dark:border-gray-700 hover:bg-gray-100 text-base">
-                    <td class="py-2 px-6">
-                        {{ $tag->id }}
+                    <td class="py-2 px-4">
+                        {{ $post->id }}
+                    </td>
+                    <td class="py-2 px-8">
+                        {{ $post->title }}
                     </td>
                     <td class="py-2 px-6">
-                        {{ $tag->name }}
+                        {{ $post->category->name }}
                     </td>
                     <td class="py-2 px-6">
-                        {{ $tag->slug }}
+                        {{ $post->comments->count() }} Comentarios
+                    </td>
+                    <td class="py-2 px-4">
+                        {{ $post->likes->count() }} Likes
+                    </td>
+                    <td class="py-2 px-6">
+                        @if ($post->status)
+                            <span class="text-green-600">Publicado</span>
+                        @else
+                            <span class="text-red-600">No Publicado</span>
+                        @endif
                     </td>
                     <td class="py-2 px-6">
                         <div class="flex justify-center">
-                            <a href="{{ route('panel.tag.edit', $tag) }}">
+                            <a href="{{ route('panel.post.edit', $post) }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                 </svg>
                             </a>
-                            <button wire:click="$emit('deleteTag', {{ $tag->id }})">
+                            <button wire:click="$emit('deletePost', {{ $post->id }})">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -55,13 +71,13 @@
         </tbody>
     </table>
     <div class="mt-4">
-        {{ $tags->links() }}
+        {{ $posts->links() }}
     </div>
 </div>
 @push('scripts')
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        Livewire.on('deleteTag', (tag_id) => {
+        Livewire.on('deletePost', (post_id) => {
             Swal.fire({
                 title: 'Estas Seguro?',
                 text: "No podra revertir esto!",
@@ -74,10 +90,10 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     /* aliminar vacante */
-                    Livewire.emit('delete', tag_id)
+                    Livewire.emit('delete', post_id)
                     Swal.fire(
                         'Eliminada!',
-                        'La etiqueta ha sido eliminada.',
+                        'El post ha sido eliminada.',
                         'success'
                     )
                 }

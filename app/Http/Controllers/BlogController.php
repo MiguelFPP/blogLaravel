@@ -8,6 +8,7 @@ use App\Models\Tag;
 
 class BlogController extends Controller
 {
+
     public function index()
     {
         $posts = Post::where('status', true)->orderBy('id')->paginate(17);
@@ -23,7 +24,6 @@ class BlogController extends Controller
             $post_like->count = $count;
             $count++;
         }
-
 
         return view('blogs.index', compact('posts', 'posts_likes'));
     }
