@@ -17,6 +17,7 @@ class Index extends Component
     public function delete($id)
     {
         $post = Post::find($id);
+        $post->tags()->detach();
         $post->delete();
     }
 
