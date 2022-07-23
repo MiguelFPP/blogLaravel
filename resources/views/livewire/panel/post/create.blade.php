@@ -25,19 +25,8 @@
                     @enderror
                 </div>
                 <div class="mb-6">
-                    <x-label for="content" class="mb-1 text-base">Contenido</x-label>
-                    <textarea name="content" id="content" wire:model.lazy="content" cols="30" rows="10"
-                        class="w-full bg-gray-50 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        placeholder="Contenido del post"></textarea>
-                    @error('content')
-                        <div class="text-red-500 text-sm">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-                <div class="mb-6">
                     <x-label for="body" class="mb-1 text-base">Cuerpo del post</x-label>
-                    <textarea name="body" id="body" wire:model.lazy="body" cols="30" rows="10"
+                    <textarea name="body" id="body" wire:model.lazy="body" cols="30" rows="5"
                         class="w-full bg-gray-50 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         placeholder="Cuerpo del post"></textarea>
                     @error('body')
@@ -46,6 +35,28 @@
                         </div>
                     @enderror
                 </div>
+                <div class="mb-6">
+                    <div wire:ignore x-data="{ content: @entangle('content') }" x-init="ClassicEditor
+                        .create($refs.ckeditor, {
+                            extraPlugins: [MyCustomUploadAdapterPlugin],
+                        }).then(editor => {
+                            editor.model.document.on('change:data', () => {
+                                content = editor.getData()
+                            });
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });">
+                        <x-label for="content" class="mb-1 text-base">Contenido</x-label>
+                        <div x-ref="ckeditor"></div>
+                    </div>
+                    @error('content')
+                        <div class="text-red-500 text-sm">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+                @dump($images)
                 <div class="mb-6">
                     <x-label for="category_id" class="mb-1 text-base">Categoria</x-label>
                     <select name="category_id" id="category_id" wire:model.lazy="category_id"
@@ -115,3 +126,69 @@
         </form>
     </div>
 </div>
+@push('scripts')
+    <script>
+        class MyUploadAdapter {
+            constructor(loader) {
+                this.loader = loader;
+            }
+            upload() {
+                return this.loader.file
+                    .then(file => new Promise((resolve, reject) => {
+                        this._initRequest();
+                        this._initListeners(resolve, reject, file);
+                        this._sendRequest(file);
+                    }));
+            }
+            abort() {
+                if (this.xhr) {
+                    this.xhr.abort();
+                }
+            }
+            _initRequest() {
+                const xhr = this.xhr = new XMLHttpRequest();
+                xhr.open('POST', "{{ route('images.upload') }}", true);
+                xhr.setRequestHeader('X-CSRF-TOKEN', "{{ csrf_token() }}");
+                xhr.responseType = 'json';
+            }
+            _initListeners(resolve, reject, file) {
+                const xhr = this.xhr;
+                const loader = this.loader;
+                const genericErrorText = `Couldn't upload file: ${ file.name }.`;
+                xhr.addEventListener('error', () => reject(genericErrorText));
+                xhr.addEventListener('abort', () => reject());
+                xhr.addEventListener('load', () => {
+                    const response = xhr.response;
+                    if (!response || response.error) {
+                        return reject(response && response.error ? response.error.message : genericErrorText);
+                    }
+                    /* almacenar el path de la imagen en el componenet co la funcion addImage de livewire */
+                    @this.addImage(response.path)
+                    resolve({
+                        default: response.url
+                    });
+                });
+                if (xhr.upload) {
+                    xhr.upload.addEventListener('progress', evt => {
+                        if (evt.lengthComputable) {
+                            loader.uploadTotal = evt.total;
+                            loader.uploaded = evt.loaded;
+                        }
+                    });
+                }
+            }
+            _sendRequest(file) {
+                const data = new FormData();
+                /* nombre de donde se almacena la imagen para el backend */
+                data.append('upload', file);
+                this.xhr.send(data);
+            }
+        }
+
+        function MyCustomUploadAdapterPlugin(editor) {
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                return new MyUploadAdapter(loader);
+            };
+        }
+    </script>
+@endpush

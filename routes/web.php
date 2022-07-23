@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\Panel\Tag\TagController;
 use App\Http\Controllers\Panel\CategoryController;
 use App\Http\Controllers\Panel\PostController;
@@ -47,3 +48,6 @@ Route::get('/tags/{tag}', [TagController::class, 'edit'])->middleware(['auth'])-
 Route::get('/posts', [PostController::class, 'index'])->middleware(['auth'])->name('panel.post.index');
 Route::get('/posts/create', [PostController::class, 'create'])->middleware(['auth'])->name('panel.post.create');
 Route::get('/posts/{post}', [PostController::class, 'edit'])->middleware(['auth'])->name('panel.post.edit');
+
+/* upload images via ckeditor */
+Route::post('/images/upload', [ImageController::class, 'upload'])->name('images.upload');

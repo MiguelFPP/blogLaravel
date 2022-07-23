@@ -3,11 +3,13 @@
 namespace App\Http\Livewire\Panel\Post;
 
 use App\Models\Tag;
+use App\Models\Post;
+use App\Models\Image;
 use Livewire\Component;
 use App\Models\Category;
-use App\Models\Post;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class Create extends Component
 {
@@ -21,6 +23,7 @@ class Create extends Component
     public $status;
     public $category_id;
     public $tags_id = [];
+    public $images = [];
 
     protected function rules()
     {
@@ -58,6 +61,11 @@ class Create extends Component
         $this->slug = Str::slug($this->title);
     }
 
+    public function addImage($image)
+    {
+        $this->images[] = $image;
+    }
+
     public function store()
     {
         $this->validate();
@@ -80,6 +88,20 @@ class Create extends Component
 
         if ($this->tags_id) {
             $post->tags()->sync($this->tags_id);
+        }
+
+        foreach ($this->images as $image) {
+            $img = Image::where('path', $image)->first();
+
+            if (strpos($post->content, $image)) {
+                $img->update([
+                    'imageable_id' => $post->id,
+                    'imageable_type' => Post::class,
+                ]);
+            } else {
+                Storage::delete('public/', $img->path);
+                $img->delete();
+            }
         }
 
         return redirect()->route('panel.post.index')->with('success', 'Post creado correctamente');

@@ -36,6 +36,7 @@
     </div>
 
     @vite(['resources/js/app.js'])
+    <script src="{{ asset('js/ck-editor/build/ckeditor.js') }}"></script>
     @livewireScripts
     @stack('scripts')
 </body>
