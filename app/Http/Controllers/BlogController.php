@@ -11,7 +11,7 @@ class BlogController extends Controller
 
     public function index()
     {
-        $posts = Post::where('status', true)->orderBy('id')->paginate(17);
+        $posts = Post::where('status', true)->orderBy('id', 'desc')->paginate(17);
 
         $posts_likes = Post::select('id', 'title', 'image')
             ->withCount('likes')

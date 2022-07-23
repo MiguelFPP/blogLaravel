@@ -79,8 +79,16 @@
                 </div>
                 <div class="mb-6">
                     <x-label for="image" class="mb-1 text-base">Imagen</x-label>
-                    <x-input type="file" class="w-full bg-gray-50" name="image" id="image"
-                        wire:model.lazy="image" />
+                    <x-input type="file" class="w-full bg-gray-50" name="image" id="image" wire:model="image"
+                        accept="image/*" />
+
+                    <div class="items-center my-5 w-80">
+                        @if ($image)
+                            <img src="{{ $image->temporaryUrl() }}" alt=""
+                                class="w-full object-cover rounded-md shadow-md">
+                        @endif
+                    </div>
+
                     @error('image')
                         <div class="text-red-500 text-sm">
                             {{ $message }}
@@ -89,10 +97,10 @@
                 </div>
                 <div class="mb-6">
                     <x-label for="status" class="mb-1 text-base">Estado</x-label>
-                    <select name="status" id="status" wire:model.lazy="status"
+                    <select name="status" id="status" wire:model="status"
                         class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full bg-gray-50">
-                        <option value="0">Borrador</option>
-                        <option value="1">Publicado</option>
+                        <option value="eraser">Borrador</option>
+                        <option value="published">Publicado</option>
                     </select>
                     @error('status')
                         <div class="text-red-500 text-sm">
