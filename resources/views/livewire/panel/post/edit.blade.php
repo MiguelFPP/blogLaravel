@@ -1,6 +1,6 @@
 <div>
     <div>
-        <form method="POST" wire:submit.prevent="store">
+        <form method="POST" wire:submit.prevent="update">
             <div>
                 <div class="mb-6">
                     <x-label for="title" class="mb-1 text-base">Titulo</x-label>
@@ -48,7 +48,7 @@
                             console.error(error);
                         });">
                         <x-label for="content" class="mb-1 text-base">Contenido</x-label>
-                        <div x-ref="ckeditor"></div>
+                        <div x-ref="ckeditor">{!! $content !!}</div>
                     </div>
                     @error('content')
                         <div class="text-red-500 text-sm">
@@ -56,6 +56,7 @@
                         </div>
                     @enderror
                 </div>
+                @dump($images)
                 <div class="mb-6">
                     <x-label for="category_id" class="mb-1 text-base">Categoria</x-label>
                     <select name="category_id" id="category_id" wire:model.lazy="category_id"
@@ -88,13 +89,19 @@
                     @enderror
                 </div>
                 <div class="mb-6">
-                    <x-label for="image" class="mb-1 text-base">Imagen</x-label>
-                    <x-input type="file" class="w-full bg-gray-50" name="image" id="image" wire:model="image"
-                        accept="image/*" />
+                    <x-label for="image_new" class="mb-1 text-base">Imagen</x-label>
+                    <x-input type="file" class="w-full bg-gray-50" name="image_new" id="image_new"
+                        wire:model="image_new" accept="image/*" />
+
+                    <div class="my-5 w-80">
+                        <x-label :value="__('Imagen Actual')" />
+                        <img src="{{ asset('storage/' . $image) }}" alt="{{ 'Imagen portada post ' . $title }}">
+                    </div>
 
                     <div class="items-center my-5 w-80">
-                        @if ($image)
-                            <img src="{{ $image->temporaryUrl() }}" alt=""
+                        @if ($image_new)
+                            <x-label :value="__('Imagen Nueva')" />
+                            <img src="{{ $image_new->temporaryUrl() }}" alt=""
                                 class="w-full object-cover rounded-md shadow-md">
                         @endif
                     </div>
@@ -107,10 +114,10 @@
                 </div>
                 <div class="mb-6">
                     <x-label for="status" class="mb-1 text-base">Estado</x-label>
-                    <select name="status" id="status" wire:model="status"
+                    <select name="status" id="status" wire:model.lazy="status"
                         class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full bg-gray-50">
-                        <option value="eraser">Borrador</option>
-                        <option value="published">Publicado</option>
+                        <option value="0" @if ($status == false) selected @endif>Borrador</option>
+                        <option value="1" @if ($status == true) selected @endif>Publicado</option>
                     </select>
                     @error('status')
                         <div class="text-red-500 text-sm">

@@ -74,6 +74,8 @@ class Create extends Component
             $image = $this->image->store('posts');
         }
 
+        dd($this->image);
+
         $post = new Post();
 
         $post->title = $this->title;
