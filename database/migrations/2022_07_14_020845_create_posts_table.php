@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('slug')->unique()->nullable();
             $table->boolean('status')->default(0);
 
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->nullable();
 
             $table->timestamps();

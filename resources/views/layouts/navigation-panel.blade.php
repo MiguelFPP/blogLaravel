@@ -24,6 +24,9 @@
                     <x-nav-link :href="route('panel.post.index')" :active="request()->routeIs('panel.post.*')">
                         {{ __('Posts') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('panel.user.index')" :active="request()->routeIs('panel.user.*')">
+                        {{ __('Usuarios') }}
+                    </x-nav-link>
                 </div>
             </div>
 
