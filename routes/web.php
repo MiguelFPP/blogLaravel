@@ -6,6 +6,7 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\Panel\Tag\TagController;
 use App\Http\Controllers\Panel\CategoryController;
 use App\Http\Controllers\Panel\PostController;
+use App\Http\Controllers\Panel\ProfileController;
 use App\Http\Controllers\Panel\UserController;
 
 /*
@@ -54,6 +55,9 @@ Route::get('/posts/{post}', [PostController::class, 'edit'])->middleware(['auth'
 Route::get('/users', [UserController::class, 'index'])->middleware(['auth'])->name('panel.user.index');
 Route::get('/users/create', [UserController::class, 'create'])->middleware(['auth'])->name('panel.user.create');
 Route::get('/users/{user}', [UserController::class, 'edit'])->middleware(['auth'])->name('panel.user.edit');
+
+/* profile */
+Route::get('/profile', ProfileController::class)->middleware(['auth'])->name('panel.profile');
 
 /* upload images via ckeditor */
 Route::post('/images/upload', [ImageController::class, 'upload'])->name('images.upload');

@@ -72,8 +72,8 @@
                         x-show="open" x-on:click.away="open=false">
                         @auth
                             <!-- Active: "bg-gray-100", Not Active: "" -->
-                            <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700"
-                                role="menuitem" tabindex="-1" id="user-menu-item-0">Panel Admin</a>
+                            <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem"
+                                tabindex="-1" id="user-menu-item-0">Panel Admin</a>
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
@@ -88,8 +88,8 @@
                         @guest
                             <a href="{{ route('login') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem"
                                 tabindex="-1" id="user-menu-item-0">Iniciar Sesion</a>
-                            <a href="{{ route('register') }}" class="block px-4 py-2 text-sm text-gray-700"
-                                role="menuitem" tabindex="-1" id="user-menu-item-0">Registrarse</a>
+                            <a href="{{ route('register') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem"
+                                tabindex="-1" id="user-menu-item-0">Registrarse</a>
                         @endguest
                     </div>
                 </div>

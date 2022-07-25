@@ -53,6 +53,9 @@
                         <x-dropdown-link href="/">
                             Blog
                         </x-dropdown-link>
+                        <x-dropdown-link href="{{ route('panel.profile') }}">
+                            Info Perfil
+                        </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -89,6 +92,18 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('panel.category.index')" :active="request()->routeIs('panel.category.*')">
+                {{ __('Categorias') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('panel.tag.index')" :active="request()->routeIs('panel.tag.*')">
+                {{ __('Etiquetas') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('panel.post.index')" :active="request()->routeIs('panel.post.*')">
+                {{ __('Posts') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('panel.user.index')" :active="request()->routeIs('panel.user.*')">
+                {{ __('Usuarios') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -99,6 +114,9 @@
             </div>
 
             <div class="mt-3 space-y-1">
+                <x-dropdown-link href="{{ route('panel.profile') }}">
+                    Info Perfil
+                </x-dropdown-link>
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
