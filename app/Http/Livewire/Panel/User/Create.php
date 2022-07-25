@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Panel\User;
 
+use App\Events\RegisterUser;
 use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Str;
@@ -42,6 +43,8 @@ class Create extends Component
         $user->password = Hash::make($pass);
         $user->email_verified_at = now();
         $user->save();
+
+        event(new RegisterUser($user, $pass));
 
         return redirect()->route('panel.user.index')->with('success', 'Usuario creado correctamente');
     }
