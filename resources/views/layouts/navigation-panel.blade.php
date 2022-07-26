@@ -24,9 +24,11 @@
                     <x-nav-link :href="route('panel.post.index')" :active="request()->routeIs('panel.post.*')">
                         {{ __('Posts') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('panel.user.index')" :active="request()->routeIs('panel.user.*')">
-                        {{ __('Usuarios') }}
-                    </x-nav-link>
+                    @if (auth()->user()->rol == 1)
+                        <x-nav-link :href="route('panel.user.index')" :active="request()->routeIs('panel.user.*')">
+                            {{ __('Usuarios') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -101,9 +103,11 @@
             <x-responsive-nav-link :href="route('panel.post.index')" :active="request()->routeIs('panel.post.*')">
                 {{ __('Posts') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('panel.user.index')" :active="request()->routeIs('panel.user.*')">
-                {{ __('Usuarios') }}
-            </x-responsive-nav-link>
+            @if (auth()->user()->rol == 1)
+                <x-responsive-nav-link :href="route('panel.user.index')" :active="request()->routeIs('panel.user.*')">
+                    {{ __('Usuarios') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
