@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\PasswordChangeEvent;
 use App\Events\RegisterUser;
+use App\Listeners\PasswordChangeListener;
 use App\Listeners\RegisterUserListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         RegisterUser::class => [
             RegisterUserListener::class,
+        ],
+        PasswordChangeEvent::class => [
+            PasswordChangeListener::class,
         ],
     ];
 
