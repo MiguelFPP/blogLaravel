@@ -11,6 +11,11 @@ class Index extends Component
 {
     protected $listeners = ['delete' => 'delete'];
 
+    public $name;
+    public $email;
+    public $sort = 'id';
+    public $order = 'desc';
+
     public function delete($id)
     {
         $user = User::find($id);
@@ -33,11 +38,24 @@ class Index extends Component
         $user->delete();
     }
 
+    public function order($sort)
+    {
+        $this->order = $this->order == 'desc' ? 'asc' : 'desc';
+        $this->sort = $sort;
+    }
+
     public function render()
     {
         $users = User::where('id', '!=', auth()->user()->id)
-            ->orderBy('id', 'desc')
+            ->when($this->name, function ($query) {
+                $query->where('name', 'like', '%' . $this->name . '%');
+            })
+            ->when($this->email, function ($query) {
+                $query->where('email', 'like', '%' . $this->email . '%');
+            })
+            ->orderBy($this->sort, $this->order)
             ->paginate(8);
+
         return view('livewire.panel.user.index', compact('users'));
     }
 }

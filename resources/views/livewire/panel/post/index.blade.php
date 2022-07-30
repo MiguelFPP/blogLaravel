@@ -5,15 +5,85 @@
             {{ session('success') }}
         </div>
     @endif
+    <div class="px-6 py-4">
+        <x-input type="text" wire:model="search" placeholder="Buscar Posts por Titulo" class="w-full">
+        </x-input>
+    </div>
     <table class="w-full text-sm text-left text-gray-900">
         <thead class="text-xs text-gray-700 uppercase bg-gray-100">
             <tr>
-                <th scope="col" class="py-3 px-4">ID</th>
-                <th scope="col" class="py-3 px-8">Titulo</th>
-                <th scope="col" class="py-3 px-6">Categoria</th>
-                <th scope="col" class="py-3 px-6">Comentarios</th>
-                <th scope="col" class="py-3 px-6">Likes</th>
-                <th scope="col" class="py-3 px-6">Estado</th>
+                <th scope="col" class="py-3 px-4 cursor-pointer" wire:click="order('id')">
+                    ID
+                    @if ($sort == 'id')
+                        @if ($order == 'asc')
+                            <i class="fas fa-sort-alpha-up-alt float-right"></i>
+                        @else
+                            <i class="fas fa-sort-alpha-down-alt float-right"></i>
+                        @endif
+                    @else
+                        <i class="fas fa-sort float-right"></i>
+                    @endif
+                </th>
+                <th scope="col" class="py-3 px-8 cursor-pointer" wire:click="order('title')">
+                    Titulo
+                    @if ($sort == 'title')
+                        @if ($order == 'asc')
+                            <i class="fas fa-sort-alpha-up-alt float-right"></i>
+                        @else
+                            <i class="fas fa-sort-alpha-down-alt float-right"></i>
+                        @endif
+                    @else
+                        <i class="fas fa-sort float-right"></i>
+                    @endif
+                </th>
+                <th scope="col" class="py-3 px-6 cursor-pointer" wire:click="order('categories.name')">
+                    Categoria
+                    @if ($sort == 'categories.name')
+                        @if ($order == 'asc')
+                            <i class="fas fa-sort-alpha-up-alt float-right"></i>
+                        @else
+                            <i class="fas fa-sort-alpha-down-alt float-right"></i>
+                        @endif
+                    @else
+                        <i class="fas fa-sort float-right"></i>
+                    @endif
+                </th>
+                <th scope="col" class="py-3 px-6 cursor-pointer" wire:click="order('comments_count')">
+                    Comentarios
+                    @if ($sort == 'comments_count')
+                        @if ($order == 'asc')
+                            <i class="fas fa-sort-alpha-up-alt float-right"></i>
+                        @else
+                            <i class="fas fa-sort-alpha-down-alt float-right"></i>
+                        @endif
+                    @else
+                        <i class="fas fa-sort float-right"></i>
+                    @endif
+                </th>
+                <th scope="col" class="py-3 px-6 cursor-pointer" wire:click="order('likes_count')">
+                    Likes
+                    @if ($sort == 'likes_count')
+                        @if ($order == 'asc')
+                            <i class="fas fa-sort-alpha-up-alt float-right"></i>
+                        @else
+                            <i class="fas fa-sort-alpha-down-alt float-right"></i>
+                        @endif
+                    @else
+                        <i class="fas fa-sort float-right"></i>
+                    @endif
+                </th>
+                <th scope="col" class="py-3 px-6 cursor-pointer" wire:click="order('status')">
+                    Estado
+                    @if ($sort == 'status')
+                        @if ($order == 'asc')
+                            <i class="fas fa-sort-alpha-up-alt float-right"></i>
+                        @else
+                            <i class="fas fa-sort-alpha-down-alt float-right"></i>
+                        @endif
+                    @else
+                        <i class="fas fa-sort float-right"></i>
+                    @endif
+                </th>
                 <th scope="col" class="py-3 px-6 text-center">Accion</th>
             </tr>
         </thead>

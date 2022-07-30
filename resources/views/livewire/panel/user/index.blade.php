@@ -5,13 +5,63 @@
             {{ session('success') }}
         </div>
     @endif
+    <div class="px-6 py-4 flex">
+        <x-input type="text" wire:model="name" placeholder="Buscar Usuarios Nombre" class="w-1/2 m-1">
+        </x-input>
+        <x-input type="text" wire:model="email" placeholder="Buscar Usuarios Email" class="w-1/2 m-1">
+        </x-input>
+    </div>
     <table class="w-full text-sm text-left text-gray-900">
         <thead class="text-xs text-gray-700 uppercase bg-gray-100">
             <tr>
-                <th scope="col" class="py-3 px-6">ID</th>
-                <th scope="col" class="py-3 px-6">Nombre</th>
-                <th scope="col" class="py-3 px-6">email</th>
-                <th scope="col" class="py-3 px-6">Rol</th>
+                <th scope="col" class="py-3 px-6 cursor-pointer" wire:click="order('id')">
+                    ID
+                    @if ($sort == 'id')
+                        @if ($order == 'asc')
+                            <i class="fas fa-sort-alpha-up-alt float-right"></i>
+                        @else
+                            <i class="fas fa-sort-alpha-down-alt float-right"></i>
+                        @endif
+                    @else
+                        <i class="fas fa-sort float-right"></i>
+                    @endif
+                </th>
+                <th scope="col" class="py-3 px-6 cursor-pointer" wire:click="order('name')">
+                    Nombre
+                    @if ($sort == 'name')
+                        @if ($order == 'asc')
+                            <i class="fas fa-sort-alpha-up-alt float-right"></i>
+                        @else
+                            <i class="fas fa-sort-alpha-down-alt float-right"></i>
+                        @endif
+                    @else
+                        <i class="fas fa-sort float-right"></i>
+                    @endif
+                </th>
+                <th scope="col" class="py-3 px-6 cursor-pointer" wire:click="order('email')">
+                    email
+                    @if ($sort == 'email')
+                        @if ($order == 'asc')
+                            <i class="fas fa-sort-alpha-up-alt float-right"></i>
+                        @else
+                            <i class="fas fa-sort-alpha-down-alt float-right"></i>
+                        @endif
+                    @else
+                        <i class="fas fa-sort float-right"></i>
+                    @endif
+                </th>
+                <th scope="col" class="py-3 px-6 cursor-pointer" wire:click="order('rol')">
+                    Rol
+                    @if ($sort == 'rol')
+                        @if ($order == 'asc')
+                            <i class="fas fa-sort-alpha-up-alt float-right"></i>
+                        @else
+                            <i class="fas fa-sort-alpha-down-alt float-right"></i>
+                        @endif
+                    @else
+                        <i class="fas fa-sort float-right"></i>
+                    @endif
+                </th>
                 <th scope="col" class="py-3 px-6 text-center">Accion</th>
             </tr>
         </thead>

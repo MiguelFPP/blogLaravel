@@ -28,7 +28,7 @@
                 </th>
                 <th scope="col" class="py-3 px-6 cursor-pointer" wire:click="order('name')">
                     Nombre
-                    @if ($sort == 'category')
+                    @if ($sort == 'name')
                         @if ($order == 'asc')
                             <i class="fas fa-sort-alpha-up-alt float-right"></i>
                         @else

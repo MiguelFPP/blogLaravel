@@ -56,7 +56,6 @@
                         </div>
                     @enderror
                 </div>
-                @dump($images)
                 <div class="mb-6">
                     <x-label for="category_id" class="mb-1 text-base">Categoria</x-label>
                     <select name="category_id" id="category_id" wire:model.lazy="category_id"
