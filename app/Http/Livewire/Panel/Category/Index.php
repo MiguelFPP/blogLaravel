@@ -10,6 +10,10 @@ class Index extends Component
 {
     use WithPagination;
 
+    public $search;
+    public $sort = 'id';
+    public $order = 'desc';
+
     protected $listeners = [
         'delete' => 'delete',
     ];
@@ -20,9 +24,18 @@ class Index extends Component
         $category->delete();
     }
 
+    public function order($sort)
+    {
+        $this->order = $this->order == 'desc' ? 'asc' : 'desc';
+        $this->sort = $sort;
+    }
+
     public function render()
     {
-        $categories = Category::paginate(8);
+        /* $categories = Category::paginate(8); */
+        $categories = Category::where('name', 'like', '%' . $this->search . '%')
+            ->orderBy($this->sort, $this->order)
+            ->paginate(8);
         return view('livewire.panel.category.index', compact('categories'));
     }
 }
