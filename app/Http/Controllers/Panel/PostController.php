@@ -20,6 +20,7 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
+        $this->authorize('update', $post);
         return view('panel.post.edit', compact('post'));
     }
 }
