@@ -22,18 +22,6 @@ class View extends Component
 
     public $user_id;
 
-    protected function rules()
-    {
-        return [
-            'name' => 'required|string|max:255|min:3',
-            'surname' => 'required|string|max:255|min:3',
-            'email' => 'required|email|max:60|unique:users,email,' . $this->user_id,
-            'actual_pass' => 'required|string|min:6',
-            'new_pass' => 'required|string|min:6|confirmed',
-            'new_pass_confirmation' => 'required|string|min:6',
-        ];
-    }
-
     protected $validationAttributes = [
         'name' => 'nombre',
         'surname' => 'apellido',
@@ -53,7 +41,11 @@ class View extends Component
 
     public function updateInfo()
     {
-        $this->validate();
+        $this->validate([
+            'name' => 'required|string|max:255|min:3',
+            'surname' => 'required|string|max:255|min:3',
+            'email' => 'required|email|max:60|unique:users,email,' . $this->user_id,
+        ]);
 
         $user = User::find(auth()->user()->id);
 
@@ -67,7 +59,11 @@ class View extends Component
 
     public function updatePassword()
     {
-        $this->validate();
+        $this->validate([
+            'actual_pass' => 'required|string|min:6',
+            'new_pass' => 'required|string|min:6|confirmed',
+            'new_pass_confirmation' => 'required|string|min:6',
+        ]);
 
         $user = User::find(auth()->user()->id);
 
